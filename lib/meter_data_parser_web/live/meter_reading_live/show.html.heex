@@ -1,0 +1,35 @@
+<.header>
+  Meter reading <%= @meter_reading.id %>
+  <:subtitle>This is a meter reading record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/meter_readings/#{@meter_reading}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit meter reading</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="ID"><%= @meter_reading.id %></:item>
+  <:item title="NMI"><%= @meter_reading.nmi %></:item>
+  <:item title="Timestamp"><%= @meter_reading.timestamp %></:item>
+  <:item title="Consumption">
+  <%=
+    @meter_reading.consumption
+    |> Enum.map(fn c -> Decimal.to_string(c) end)
+    |> Enum.join(", ")
+  %>
+  </:item>
+</.list>
+
+<.back navigate={~p"/meter_readings"}>Back to meter readings</.back>
+
+<.modal :if={@live_action == :edit} id="meter_reading-modal" show on_cancel={JS.patch(~p"/meter_readings/#{@meter_reading}")}>
+  <.live_component
+    module={MeterDataParserWeb.MeterReadingLive.FormComponent}
+    id={@meter_reading.id}
+    title={@page_title}
+    action={@live_action}
+    meter_reading={@meter_reading}
+    patch={~p"/meter_readings/#{@meter_reading}"}
+  />
+</.modal>

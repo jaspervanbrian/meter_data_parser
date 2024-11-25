@@ -18,6 +18,13 @@ defmodule MeterDataParserWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/meter_readings", MeterReadingLive.Index, :index
+    live "/meter_readings/new", MeterReadingLive.Index, :new
+    live "/meter_readings/upload", MeterReadingLive.Index, :upload
+    live "/meter_readings/:id/edit", MeterReadingLive.Index, :edit
+
+    live "/meter_readings/:id", MeterReadingLive.Show, :show
+    live "/meter_readings/:id/show/edit", MeterReadingLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

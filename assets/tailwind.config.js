@@ -9,7 +9,9 @@ module.exports = {
   content: [
     "./js/**/*.js",
     "../lib/meter_data_parser_web.ex",
-    "../lib/meter_data_parser_web/**/*.*ex"
+    "../lib/meter_data_parser_web/**/*.*ex",
+    // Allows PhoenixUI css to be processed by JIT.
+    "../deps/phoenix_ui/**/*.*ex"
   ],
   theme: {
     extend: {
@@ -28,6 +30,10 @@ module.exports = {
     plugin(({addVariant}) => addVariant("phx-click-loading", [".phx-click-loading&", ".phx-click-loading &"])),
     plugin(({addVariant}) => addVariant("phx-submit-loading", [".phx-submit-loading&", ".phx-submit-loading &"])),
     plugin(({addVariant}) => addVariant("phx-change-loading", [".phx-change-loading&", ".phx-change-loading &"])),
+    // Allows form error styling
+    plugin(({ addVariant }) =>
+      addVariant("invalid", ".invalid:not(.phx-no-feedback) &")
+    ),
 
     // Embeds Heroicons (https://heroicons.com) into your app.css bundle
     // See your `CoreComponents.icon/1` for more information.

@@ -1,0 +1,61 @@
+<.header>
+  Listing Meter readings
+  <:actions>
+    <.link patch={~p"/meter_readings/new"}>
+      <.button>New Meter reading</.button>
+    </.link>
+    <.link patch={~p"/meter_readings/upload"}>
+      <.button>Upload Meter reading CSV</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="meter_readings"
+  rows={@streams.meter_readings}
+  row_click={fn {_id, meter_reading} -> JS.navigate(~p"/meter_readings/#{meter_reading}") end}
+>
+  <:col :let={{_id, meter_reading}} label="ID"><%= meter_reading.id %></:col>
+  <:col :let={{_id, meter_reading}} label="NMI"><%= meter_reading.nmi %></:col>
+  <:col :let={{_id, meter_reading}} label="Timestamp"><%= meter_reading.timestamp %></:col>
+  <:col :let={{_id, meter_reading}} label="Interval Length"><%= meter_reading.interval_length %></:col>
+  <:col :let={{_id, meter_reading}} label="Consumption">
+    <%= meter_reading.consumption |> Enum.join(", ") %>
+  </:col>
+  <:action :let={{_id, meter_reading}}>
+    <div class="sr-only">
+      <.link navigate={~p"/meter_readings/#{meter_reading}"}>Show</.link>
+    </div>
+    <.link patch={~p"/meter_readings/#{meter_reading}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, meter_reading}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: meter_reading.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="meter_reading-modal" show on_cancel={JS.patch(~p"/meter_readings")}>
+  <.live_component
+    module={MeterDataParserWeb.MeterReadingLive.FormComponent}
+    id={@meter_reading.id || :new}
+    title={@page_title}
+    action={@live_action}
+    meter_reading={@meter_reading}
+    patch={~p"/meter_readings"}
+  />
+</.modal>
+
+<.modal :if={@live_action in [:upload]} id="meter_reading-upload-modal" show on_cancel={JS.patch(~p"/meter_readings")}>
+  <.live_component
+    module={MeterDataParserWeb.MeterReadingLive.UploadComponent}
+    id={@meter_reading.id || :new}
+    title={@page_title}
+    action={@live_action}
+    meter_reading={@meter_reading}
+    patch={~p"/meter_readings"}
+  />
+</.modal>
