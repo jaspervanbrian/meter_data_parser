@@ -17,7 +17,8 @@ defmodule MeterDataParser.Application do
       # Start a worker by calling: MeterDataParser.Worker.start_link(arg)
       # {MeterDataParser.Worker, arg},
       # Start to serve requests, typically the last entry
-      MeterDataParserWeb.Endpoint
+      MeterDataParserWeb.Endpoint,
+      {Oban, Application.fetch_env!(:meter_data_parser, Oban)}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
