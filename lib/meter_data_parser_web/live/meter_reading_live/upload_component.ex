@@ -1,6 +1,10 @@
 defmodule MeterDataParserWeb.MeterReadingLive.UploadComponent do
   use MeterDataParserWeb, :live_component
 
+  alias Ecto.Multi
+  alias MeterDataParser.Repo
+  alias MeterDataParser.Workers.CsvWorker
+
   @impl true
   def update(assigns, socket) do
     {:ok,
@@ -25,6 +29,13 @@ defmodule MeterDataParserWeb.MeterReadingLive.UploadComponent do
 
         {:ok, ~p"/uploads/#{Path.basename(dest)}"}
       end)
+
+    uploaded_files
+    |> Enum.reduce(Multi.new(), fn filename, oban_multi ->
+      oban_multi
+      |> Oban.insert("process_csv_#{filename}", CsvWorker.new(%{filename: filename}))
+    end)
+    |> Repo.transaction()
 
     {:noreply,
       socket
