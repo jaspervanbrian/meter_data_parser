@@ -5,6 +5,22 @@ This project was made to take and parse NEM12 data format, that is used in Austr
 
 ## Setting up
 
+Install asdf: https://asdf-vm.com/guide/getting-started.html
+
+Install erlang:
+```
+$ asdf plugin add erlang
+$ asdf install erlang latest
+```
+
+Install elixir:
+```
+$ asdf plugin add elixir
+$ asdf install erlang elixir
+```
+
+`cd` to meter_data_parser/ folder
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
