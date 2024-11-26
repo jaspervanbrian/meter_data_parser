@@ -52,10 +52,9 @@
 <.modal :if={@live_action in [:upload]} id="meter_reading-upload-modal" show on_cancel={JS.patch(~p"/meter_readings")}>
   <.live_component
     module={MeterDataParserWeb.MeterReadingLive.UploadComponent}
-    id={@meter_reading.id || :new}
+    id={:upload}
     title={@page_title}
     action={@live_action}
-    meter_reading={@meter_reading}
     patch={~p"/meter_readings"}
   />
 </.modal>
