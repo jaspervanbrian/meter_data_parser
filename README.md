@@ -16,7 +16,7 @@ $ asdf install erlang latest
 Install elixir:
 ```
 $ asdf plugin add elixir
-$ asdf install erlang elixir
+$ asdf install elixir latest
 ```
 
 `cd` to meter_data_parser/ folder
