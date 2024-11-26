@@ -3,7 +3,7 @@ defmodule MeterDataParser.NEM12.MeterReading do
   import Ecto.Changeset
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
-  @required_attrs ~w(nmi timestamp interval_length consumption_string consumption)a
+  @required_attrs ~w(nmi timestamp interval_length consumption)a
   @interval_values_count 1440
 
   schema "meter_readings" do
@@ -21,25 +21,26 @@ defmodule MeterDataParser.NEM12.MeterReading do
     meter_reading
     |> cast(attrs, [:nmi, :timestamp, :interval_length, :consumption_string])
     |> validate_required(@required_attrs)
+    |> validate_length(:nmi, is: 10)
     |> validate_inclusion(:interval_length, [5, 15, 30])
     |> unique_constraint([:nmi, :timestamp])
   end
 
   def save_changeset(meter_reading, attrs) do
-    %{"consumption_string" => cs} = attrs
+    %{"consumption_string" => cs} = attrs |> Jason.encode!() |> Jason.decode!()
     consumption = cs
                   |> String.split(",", trim: true)
                   |> Enum.map(fn c ->
-                    {c_numeric, _} = c
-                                     |> String.trim
-                                     |> Float.parse
-                    c_numeric
+                    c
+                    |> String.trim
+                    |> Decimal.new()
                   end)
 
     meter_reading
     |> cast(attrs, [:nmi, :timestamp, :interval_length, :consumption_string])
     |> put_change(:consumption, consumption)
     |> validate_required(@required_attrs)
+    |> validate_length(:nmi, is: 10)
     |> validate_inclusion(:interval_length, [5, 15, 30])
     |> validate_change(:interval_length, fn :interval_length, interval_length ->
       correct_interval_val_count = @interval_values_count / interval_length

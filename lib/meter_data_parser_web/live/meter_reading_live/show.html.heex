@@ -12,13 +12,7 @@
   <:item title="ID"><%= @meter_reading.id %></:item>
   <:item title="NMI"><%= @meter_reading.nmi %></:item>
   <:item title="Timestamp"><%= @meter_reading.timestamp %></:item>
-  <:item title="Consumption">
-  <%=
-    @meter_reading.consumption
-    |> Enum.map(fn c -> Decimal.to_string(c) end)
-    |> Enum.join(", ")
-  %>
-  </:item>
+  <:item title="Consumption"><%= @meter_reading.consumption |> Enum.join(", ") %></:item>
 </.list>
 
 <.back navigate={~p"/meter_readings"}>Back to meter readings</.back>

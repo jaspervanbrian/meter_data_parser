@@ -9,7 +9,7 @@ defmodule MeterDataParserWeb.MeterReadingLive.UploadComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Upload new meter readings in your database. (Accepting CSV files)</:subtitle>
+        <:subtitle>Upload new meter readings to your database. (Accepting CSV files)</:subtitle>
       </.header>
 
       <.simple_form

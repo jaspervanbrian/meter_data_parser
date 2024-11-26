@@ -9,13 +9,13 @@ defmodule MeterDataParser.NEM12Fixtures do
   """
   def meter_reading_fixture(attrs \\ %{}) do
     {:ok, meter_reading} =
-      attrs
-      |> Enum.into(%{
-        consumption: [],
-        id: "7488a646-e31f-11e4-aace-600308960662",
-        nmi: "some nmi",
-        timestamp: ~D[2024-11-24]
-      })
+      %{
+        "consumption_string" => "1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0",
+        "nmi" => "1234567890",
+        "timestamp" => ~D[2024-11-24],
+        "interval_length" => 30
+      }
+      |> Map.merge(attrs)
       |> MeterDataParser.NEM12.create_meter_reading()
 
     meter_reading
