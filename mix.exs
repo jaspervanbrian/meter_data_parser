@@ -59,7 +59,9 @@ defmodule MeterDataParser.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:oban, "~> 2.18.3"}
+      {:oban, "~> 2.18.3"},
+      {:csv, "~> 3.2.1"},
+      {:timex, "~> 3.7.11"}
     ]
   end
 

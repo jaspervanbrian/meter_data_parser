@@ -43,13 +43,13 @@ defmodule MeterDataParser.NEM12.MeterReading do
     |> validate_length(:nmi, is: 10)
     |> validate_inclusion(:interval_length, [5, 15, 30])
     |> validate_change(:interval_length, fn :interval_length, interval_length ->
-      correct_interval_val_count = @interval_values_count / interval_length
+      correct_interval_val_count = trunc(@interval_values_count / interval_length)
       consumption_count = Enum.count(consumption)
 
       if correct_interval_val_count == Enum.count(consumption) do
         []
       else
-        [consumption_string: "Must contain #{trunc(correct_interval_val_count)} interval values (you have #{consumption_count}) based on interval length value (#{interval_length})"]
+        [consumption_string: "Must contain #{correct_interval_val_count} interval values (you have #{consumption_count}) based on interval length value (#{interval_length})"]
       end
     end)
     |> unique_constraint([:nmi, :timestamp])

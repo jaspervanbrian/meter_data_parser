@@ -27,7 +27,7 @@ defmodule MeterDataParserWeb.MeterReadingLive.UploadComponent do
         # You will need to create `priv/static/uploads` for `File.cp!/2` to work.
         File.cp!(path, dest)
 
-        {:ok, ~p"/uploads/#{Path.basename(dest)}"}
+        {:ok, "priv/static/uploads/#{Path.basename(dest)}"}
       end)
 
     uploaded_files
